@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Nurse</h1>
+{% for post in posts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ post.nurse_name }}</a>
+              <small class="text-muted">role: {{ post.role }}</small>
+            </div>
+            <h2><a class="article-title" href="#">work years: {{ post.work_years }}</a></h2>
+            <p class="article-content">employment_percentage: {{ post.employment_percentage }}</p>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
