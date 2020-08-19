@@ -1,6 +1,6 @@
-from src.Models.DTO.nurse import Nurse
+from src.Models.DTO.user import User
 
 
-class AdminNurse(Nurse):
+class AdminNurse(User):
     def __init(self):
         pass

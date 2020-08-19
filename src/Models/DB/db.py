@@ -1,15 +1,16 @@
+import collections
+
 import pymongo
-from flask_login import login_manager
 import csv
 import pandas as pd
 import json
 
-from src.Models.DTO.user import User
-
 # creating new data base
+from passlib.handlers.pbkdf2 import pbkdf2_sha256
 
 my_client = pymongo.MongoClient("mongodb://localhost:27017/")
 my_db = my_client["my_database"]
+
 
 # creating collections
 nurse_details_col = my_db["nurses"]  # nurse personal data collection
@@ -27,12 +28,12 @@ nurse_personal_data_dict = [
     {"_id": "40000000000", "name": "einat", "work_years": "3", "role": "nurse"}
 ]
 users_dict = [
-    {"email": "yasmin.schryer@gmail.com", "password": "039762364"},
-    {"email": "yony_oz@yahoo.com", "password": "200079580"},
-    {"email": "nurit@gmail.com", "password": "044"},
-    {"email": "zvia@gmail.com", "password": "144"},
-    {"email": "dina@gmail.com", "password": "244"},
-    {"email": "tali@gmail.com", "password": "344"},
+    {"email": "yasmin.schryer@gmail.com", "password": pbkdf2_sha256.encrypt("039762364")},
+    {"email": "yony_oz@yahoo.com", "password": pbkdf2_sha256.encrypt("200079580")},
+    {"email": "nurit@gmail.com", "password": pbkdf2_sha256.encrypt("044")},
+    {"email": "zvia@gmail.com", "password": pbkdf2_sha256.encrypt("144")},
+    {"email": "dina@gmail.com", "password": pbkdf2_sha256.encrypt("244")},
+    {"email": "tali@gmail.com", "password": pbkdf2_sha256.encrypt("344")},
 ]
 
 
@@ -55,10 +56,6 @@ def update_nurse_data():
     pass  # TODO: IMPLEMENT THIS METHOD
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id)
-
 # print("***************************testing************************************************")
 # # check if the data base was created
 # print(my_client.list_database_names())
@@ -67,10 +64,10 @@ def load_user(user_id):
 # if "my_database" in db_list:
 #     print("The database exists.")
 #
-# # check if the collection was created
-# print("the collection name are: ")
-# print(my_db.list_collection_names())
-#
+# check if the collection was created
+print("the collection name are: ")
+print(my_db.list_collection_names())
+
 # # print("the first document is: ")
 # # doc = nurse_details_col.find_one()  # print the first document
 # # print(doc)
@@ -82,12 +79,12 @@ def load_user(user_id):
 # # for doc in nurse_details_col.find({}, {"_id": 0, "name": 1}):
 # #     print(doc)
 #
-# # print all users documents
-# print("The users are: ")
-# for doc in users_col.find():
-#     print(doc)
+# print all users documents
+print("The users are: ")
+for doc in users_col.find():
+    print(doc)
 
-# print(get_nurse_data("dina"))
+print(get_nurse_data("dina"))
 
 
 # ******************************************************************************************
@@ -98,4 +95,3 @@ def load_user(user_id):
 #     df = pd.read_csv(file_path)
 #     data = df.to_dict('records')
 #     my_db.nurses_work_data_2019.insert_many(data, ordered=False)
-

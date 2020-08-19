@@ -2,8 +2,6 @@ from functools import wraps
 
 from flask import render_template, flash, url_for, session
 from werkzeug.utils import redirect
-
-from src.Models.DTO.nurse import Nurse
 from src.Models.DTO.user import User
 from src.Models.run import app
 from src.Models.forms import LoginForm, RegisterNurseForm
@@ -17,7 +15,7 @@ def login_required(f):
         if 'logged in' in session:
             return f(*args, **kwargs)
         else:
-            return redirect(url_for('home'))
+            return redirect(url_for('login'))
     return wrap
 
 
@@ -59,14 +57,12 @@ def department():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        if form.email.data == 'admin@wolfson.com' and form.password.data == 'password':
-            # if my_db.users_col.find({}, {form.email.data, form.password.data}):
+        if form.email.data == 'admin@wolfson.com' and form.password.data == 'password':  # TODO: FIX TO CHECK EMAIL AMD PASSWORDS ARE IN DB
+            User().login()
             flash('You have been logged in!', 'success')
-            # login_user(user)
-            User().signup()
             return redirect(url_for('nurse'))
         else:
-            flash('Login Unsuccessful. Please check username and password', 'danger')
+             flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', title='Login', form=form)
 
 
@@ -80,7 +76,7 @@ def logout():
 def register_nurse():
     form = RegisterNurseForm()
     if form.validate_on_submit():
-        return Nurse().register_nurse()
+        return User().register_nurse()
     #     flash('You have been Register a Nurse!', 'success')
     # else:
     #    flash('Register Unsuccessful. Please check username and password', 'danger')

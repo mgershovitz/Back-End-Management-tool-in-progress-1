@@ -1,7 +1,9 @@
 from src.Models.DTO.nurse import Nurse
 
+from src.Models.DTO.user import User
 
-class NurseStatistics(Nurse):
+
+class NurseStatistics(User):
     def __init__(self, year, month, epi, epidoral, cs, vaccum, number_of_births, number_of_living_births,
                  tolac_doVbac_percentange, shoulder_dystocia_perstange, third_degree_tear):
         self.month = month
