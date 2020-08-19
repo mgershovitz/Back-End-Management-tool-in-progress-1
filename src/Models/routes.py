@@ -1,4 +1,6 @@
-from flask import render_template, flash, url_for
+from functools import wraps
+
+from flask import render_template, flash, url_for, session
 from werkzeug.utils import redirect
 
 from src.Models.DTO.nurse import Nurse
@@ -7,6 +9,17 @@ from src.Models.run import app
 from src.Models.forms import LoginForm, RegisterNurseForm
 
 # from src.Models.db import my_db
+
+
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged in' in session:
+            return f(*args, **kwargs)
+        else:
+            return redirect(url_for('home'))
+    return wrap
+
 
 # dummy data
 posts = [
@@ -31,11 +44,13 @@ def home():
 
 
 @app.route("/nurse/screen")
+@login_required
 def nurse():
     return render_template('nurse_screen.html', posts=posts)
 
 
 @app.route("/department")
+@login_required
 def department():
     return render_template('department.html')
 
@@ -48,8 +63,8 @@ def login():
             # if my_db.users_col.find({}, {form.email.data, form.password.data}):
             flash('You have been logged in!', 'success')
             # login_user(user)
-            return User().signup()
-            return redirect(url_for('home'))
+            User().signup()
+            return redirect(url_for('nurse'))
         else:
             flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', title='Login', form=form)
@@ -61,6 +76,7 @@ def logout():
 
 
 @app.route("/register/nurse", methods=['GET', 'POST'])
+@login_required
 def register_nurse():
     form = RegisterNurseForm()
     if form.validate_on_submit():
