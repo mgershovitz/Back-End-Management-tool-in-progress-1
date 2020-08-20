@@ -16,6 +16,7 @@ my_db = my_client["my_database"]
 nurse_details_col = my_db["nurses"]  # nurse personal data collection
 nurse_work_data_col = my_db["nurses_work_data_2019"]  # work statistic collection
 users_col = my_db["users"]  # user collection
+hospital_statistic_col = my_db["hospital_statistic"] # hospital_statistic collection
 
 # dummy data
 dict_2019 = {"_id": "04577766555", "name": "zvia", "numberOfBirths": 100, "twins": 5, "epi": 30, "surgeries": 10}
@@ -38,10 +39,10 @@ users_dict = [
 
 
 # inserting data to the db
-# nurse_details_col.insert_one(my_dict)
-# nurse_work_data_col.insert_one(dict_2019)
-# nurse_personal_data = nurse_details_col.insert_many(nurse_personal_data_dict)
-# users = users_col.insert_many(users_dict)
+nurse_details_col.insert_one(my_dict)
+nurse_work_data_col.insert_one(dict_2019)
+nurse_personal_data = nurse_details_col.insert_many(nurse_personal_data_dict)
+users = users_col.insert_many(users_dict)
 
 
 # get nurse personal data
@@ -51,9 +52,13 @@ def get_nurse_data(nursename):
     for doc1 in my_doc:
         return doc1
 
+# ******************************************************************************************
+# Function to insert data from csv
 
-def update_nurse_data():
-    pass  # TODO: IMPLEMENT THIS METHOD
+def read_data_from_csv(file_path):
+    df = pd.read_csv(file_path, low_memory=False)
+    data = df.to_dict('records')
+    my_db.hospital_statistic_col.insert_many(data, ordered=False)
 
 
 # print("***************************testing************************************************")
@@ -68,30 +73,17 @@ def update_nurse_data():
 print("the collection name are: ")
 print(my_db.list_collection_names())
 
-# # print("the first document is: ")
-# # doc = nurse_details_col.find_one()  # print the first document
-# # print(doc)
-# #
-# # # different ways to find data in the collection
-# print("The nurses personal data details are: ")
-# for doc in nurse_details_col.find():  # print all the documents
-#     print(doc)
-# # for doc in nurse_details_col.find({}, {"_id": 0, "name": 1}):
-# #     print(doc)
-#
 # print all users documents
-print("The users are: ")
-for doc in users_col.find():
-    print(doc)
-
-print(get_nurse_data("dina"))
+# print("The users are: ")
+# for doc in users_col.find():
+#     print(doc)
+#
+# print(get_nurse_data("dina"))
 
 
 # ******************************************************************************************
-# Function to insert data from csv
 
-
-# def read_data_from_csv(file_path):
-#     df = pd.read_csv(file_path)
-#     data = df.to_dict('records')
-#     my_db.nurses_work_data_2019.insert_many(data, ordered=False)
+#print all hospital statistic documents
+# print("The hospital statistic are: ")
+# for doc in hospital_statistic_col.find():
+#     print(doc)
