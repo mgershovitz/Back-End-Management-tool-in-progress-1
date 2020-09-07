@@ -1,11 +1,6 @@
-from src.Models.DTO.nurse import Nurse
-
-from src.Models.DTO.user import User
-
-
-class NurseStatistics(User):
-    def __init__(self, year, month, epi, epidoral, cs, vaccum, number_of_births, number_of_living_births,
-                 tolac_doVbac_percentange, shoulder_dystocia_perstange, third_degree_tear):
+class Department:
+    def __init__(self, name, year, month, epi, epidoral, cs, vaccum, number_of_births, number_of_living_births, tolac_doVbac_percentange, shoulder_dystocia_perstange, third_degree_tear):
+        self.name = name
         self.month = month
         self.epi = epi
         self.epidoral = epidoral
@@ -18,3 +13,7 @@ class NurseStatistics(User):
         self.tolac_doVbac_percentange = tolac_doVbac_percentange
         self.shoulder_dystocia_perstange = shoulder_dystocia_perstange
         self.third_degree_tear = third_degree_tear
+
+
+def get_hospital_statistic():
+    pass

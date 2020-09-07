@@ -2,11 +2,10 @@ from functools import wraps
 
 from flask import render_template, flash, url_for, session
 from werkzeug.utils import redirect
-from src.Models.DTO.user import User
-from src.Models.run import app
-from src.Models.forms import LoginForm, RegisterNurseForm
 
-# from src.Models.db import my_db
+from src.DB.Models.DTO.user import User
+from src.run import app
+from src.forms import LoginForm, RegisterNurseForm, InsertNewBirthData
 
 
 def login_required(f):
@@ -45,6 +44,16 @@ def home():
 @login_required
 def nurse():
     return render_template('nurse_screen.html', posts=posts)
+
+
+@app.route("/cs_prediction",  methods=['GET', 'POST'])
+@login_required
+def cs_prediction():
+    form = InsertNewBirthData()
+    if form.validate_on_submit():
+        return render_template('cs_prediction.html', title='Cs_prediction', form=form) #TODO: fix it
+    else:
+        return "in progress"
 
 
 @app.route("/department")

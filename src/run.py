@@ -1,4 +1,4 @@
-from src.Models import app
+from src.app import app
 
 if __name__ == "__main__":
     try:
@@ -6,4 +6,3 @@ if __name__ == "__main__":
         serve(app, host='0.0.0.0', port=8888)
     except:
         print('unable to open port')
-

@@ -1,6 +1,9 @@
-class Department:
-    def __init__(self, name, year, month, epi, epidoral, cs, vaccum, number_of_births, number_of_living_births, tolac_doVbac_percentange, shoulder_dystocia_perstange, third_degree_tear):
-        self.name = name
+from src.DB.Models.DTO.user import User
+
+
+class NurseStatistics(User):
+    def __init__(self, year, month, epi, epidoral, cs, vaccum, number_of_births, number_of_living_births,
+                 tolac_doVbac_percentange, shoulder_dystocia_perstange, third_degree_tear):
         self.month = month
         self.epi = epi
         self.epidoral = epidoral
@@ -13,3 +16,7 @@ class Department:
         self.tolac_doVbac_percentange = tolac_doVbac_percentange
         self.shoulder_dystocia_perstange = shoulder_dystocia_perstange
         self.third_degree_tear = third_degree_tear
+
+
+def get_nurse_statistic():
+    pass
