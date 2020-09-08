@@ -39,14 +39,19 @@ class User:
         user['id_num'] = pbkdf2_sha256.encrypt(user['id_num'])
         return self.start_session(user)
 
-    def get_nurse(self, nurse_id):
-        my_query = {"nurse_id": nurse_id}
+    def get_nurse(name):
+        my_query = {"name": name}
         my_doc = nurse_details_col.find(my_query)
         for doc1 in my_doc:
             return doc1
 
-    def get_all_nurses_names(self):
-        pass
+    def get_all_nurses_names(collection):
+        all_nurses = []
+        nurses_names = collection.find({}, {"name"})
+        for nurse in nurses_names:
+            all_nurses.append(nurse)
+        return all_nurses
+
 
     def get_is_admin(self):
         pass

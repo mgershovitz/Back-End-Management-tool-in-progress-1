@@ -1,4 +1,5 @@
 from src.DB.Models.DTO.user import User
+from src.DB.db import nurse_work_data_col
 
 
 class NurseStatistics(User):
@@ -18,5 +19,8 @@ class NurseStatistics(User):
         self.third_degree_tear = third_degree_tear
 
 
-def get_nurse_statistic():
-    pass
+def get_nurse_statistic(name):
+    my_query = {"name": name}
+    my_doc = nurse_work_data_col.find(my_query)
+    for doc in my_doc:
+        return doc

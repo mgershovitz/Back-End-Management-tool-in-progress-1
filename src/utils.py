@@ -2,6 +2,8 @@ import os
 import pandas as pd
 import openpyxl as xl
 
+from src.DB import db
+
 cwd = os.path.abspath('')
 files = os.listdir(cwd)
 
@@ -49,6 +51,25 @@ def update_excel():
             delete_rows(file, 9)
             convert_excel_to_csv(file, 'new_file.csv')  # TODO fix convert_excel_to_csv
 
+
+# df = pd.DataFrame()
+# # delete_columns('02.2018.xlsx', 2)
+# delete_columns('01.2018.xlsx', 7)
+# delete_columns('01.2018.xlsx', 7)
+# # df.to_excel('new_01.2018.xlsx')
+# df = pd.read_excel('02.2018.xlsx')
+# print(df.head(15))
+
+
+# make changes in the csv so the json will be good
+# df = pd.DataFrame()
+# df = pd.read_csv('new_month_statistic.csv')
+# # df.drop(['Unnamed: 2', 'Unnamed: 6', 'Unnamed: 7', 'Unnamed: 11', 'Unnamed: 18', 'Unnamed: 19', 'Unnamed: 23', 'Unnamed: 27', "מס' זיהוי",'שם'], axis=1, inplace=True)
+# df.drop(['Unnamed: 0', 'Unnamed: 10', 'Unnamed: 16'], axis=1, inplace=True)
+# df.to_csv('new_month_statistic.csv', index=False)
+# df = pd.read_csv('new_month_statistic.csv')
+# # print(df.head(2))
+
+
 # convert excel files to csv
 # convert_excel_to_csv(r'01.2018.xlsx', r'month012018_statistic.csv')
-

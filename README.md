@@ -14,9 +14,9 @@ Progress:
 4. Basic front-end design for the web
 
 Next things we need to do:
-1. implement Register new nurse.
-2. insert data to hospital collection
-3. implement user and department methods
+1. Implement register new nurse.
+2. Insert data to hospital collection
+3. Implement user and department methods
 
 POC:
 Login to the system by:
