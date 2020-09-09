@@ -27,7 +27,7 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
               <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
-              <a class="nav-item nav-link" href="{{ url_for('nurses') }}">Nurses</a>
+              <a class="nav-item nav-link" href="{{ url_for('nurse') }}">Nurse</a>
                  <a class="nav-item nav-link" href="{{ url_for('department') }}">Department</a>
             </div>
             <!-- Navbar Right Side -->
@@ -37,9 +37,6 @@
                 {% else %}
                     <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
                 {% endif %}
-            </div>
-               <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="{{ url_for('register_nurse') }}">Register Nurse</a>
             </div>
           </div>
         </div>

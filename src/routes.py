@@ -1,9 +1,10 @@
 from functools import wraps
 
-from flask import render_template, flash, url_for, session
+from flask import render_template, flash, url_for, session, jsonify
 from werkzeug.utils import redirect
 
-from src.DB.Models.DTO.user import User
+from src import session_utils
+from src.DB.Models.DTO.nurse_user import NurseUser
 from src.run import app
 from src.forms import LoginForm, RegisterNurseForm, InsertNewBirthData
 
@@ -36,6 +37,7 @@ posts = [
 
 
 @app.route("/")
+@login_required
 def home():
     return render_template('home.html')
 
@@ -44,6 +46,11 @@ def home():
 @login_required
 def nurse():
     return render_template('nurse_screen.html', posts=posts)
+
+@app.route("/nurses/screen")
+@login_required
+def nurses():
+    return render_template('nurses_screen.html', posts=posts)
 
 
 @app.route("/cs_prediction",  methods=['GET', 'POST'])
@@ -66,10 +73,17 @@ def department():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        if form.email.data == 'admin@wolfson.com' and form.password.data == 'password':  # TODO: FIX TO CHECK EMAIL AMD PASSWORDS ARE IN DB
-            User().login()
-            flash('You have been logged in!', 'success')
-            return redirect(url_for('nurse'))
+        login_user = NurseUser()
+        login_user.email = form.email.data
+        login_user.password = form.password.data
+        if session_utils.login(login_user):
+            # if NurseUser().is_admin(login_user.email):
+            if form.email.data == "admin@wolfson.com":
+                flash('You have been logged in!', 'success')
+                return redirect(url_for('nurses'))
+            else:
+                flash('You have been logged in!', 'success')
+                return redirect(url_for('nurse'))
         else:
              flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', title='Login', form=form)
@@ -77,7 +91,7 @@ def login():
 
 @app.route("/logout")
 def logout():
-    return User().logout()
+    return session_utils.logout()
 
 
 @app.route("/register/nurse", methods=['GET', 'POST'])
@@ -85,8 +99,10 @@ def logout():
 def register_nurse():
     form = RegisterNurseForm()
     if form.validate_on_submit():
-        return User().register_nurse()
-    #     flash('You have been Register a Nurse!', 'success')
-    # else:
-    #    flash('Register Unsuccessful. Please check username and password', 'danger')
-    return render_template('register_nurse.html', title='register_nurse', form=form)
+        if NurseUser().register_nurse():
+            flash('You have been Register a Nurse!', 'success')
+            return redirect(url_for('nurse'))
+        else:
+            flash('Register Unsuccessful. Please check username and password', 'danger')
+    else:
+        return render_template('register_nurse.html', title='register_nurse', form=form)
