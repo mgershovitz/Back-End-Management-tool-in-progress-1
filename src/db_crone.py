@@ -1,12 +1,32 @@
-# Once a day, run a job, go to folder/s3/etc... look for new files (against db table of data files) and update db
+# Once a day, run a job, go to folder /src look for new files (against db table of data files) and update db
+import os
+from datetime import datetime
+from src.DB import db
+from src.DB.db import data_files_col
 
 
 class DBCron:
     def __init__(self):
         self.cron_interval = "24 hours"
-        self.data_files_collection_name
-        self.db
+        self.data_files_col = data_files_col
+        self.db = db
+
 
     def load_from_csv_to_db(self):
-        pass
+        cwd = os.path.abspath('../')
+        files = os.listdir(cwd)
+        for file in files:
+            if file.endswith('.csv'):
+                if not data_files_col.find_one({"file_name": file}):
+                    try:
+                        db.read_data_from_csv("../" + file)
+                        db.data_files_col.insert_one({"file_name": file, "date": datetime.now(), "status": True})
+                    except:
+                        print("Error in inserting file: " + file)
+                else:
+                    print("file" + file + " is already in db")
+            else:
+                pass
 
+# TODO: plan how new csv files are inserted to the program
+# TODO: automation of load from csv so it will action once a day

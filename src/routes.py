@@ -7,6 +7,7 @@ from src import session_utils
 from src.DB.Models.DTO.nurse_user import NurseUser
 from src.run import app
 from src.forms import LoginForm, RegisterNurseForm, InsertNewBirthData
+from src.tests.dummy_data import posts
 
 
 def login_required(f):
@@ -17,23 +18,6 @@ def login_required(f):
         else:
             return redirect(url_for('login'))
     return wrap
-
-
-# dummy data
-posts = [
-        {
-            'nurse_name': 'Nurit Lev',
-            'role': 'Nurse',
-            'work_years': '14',
-            'employment_percentage': '100%'
-        },
-        {
-            'nurse_name': 'Tali Queen',
-            'role': 'Nurse',
-            'work_years': '35',
-            'employment_percentage': '100%'
-        },
-    ]
 
 
 @app.route("/")

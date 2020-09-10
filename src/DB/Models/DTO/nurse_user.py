@@ -1,7 +1,8 @@
 from flask import jsonify, request
 import uuid
-from passlib.handlers.pbkdf2 import pbkdf2_sha256
-from src.DB.db import my_db, nurse_details_col
+# from passlib.handlers.pbkdf2 import pbkdf2_sha256
+# from werkzeug.security import generate_password_hash
+from src.DB.db import nurse_details_col
 from src.session_utils import start_session
 
 
@@ -16,6 +17,7 @@ class NurseUser:
         self.courses = None
         self.employment_percentage = None
         self.roles = None
+        # self. nurse_license_id = None
         self.is_admin = False
 
     @classmethod
@@ -35,6 +37,7 @@ class NurseUser:
 
 
     def register_nurse(self):
+        # hashed = generate_password_hash(request.form.get('id_num'), "sha256")
         # Create the user object
         user = {"_id": uuid.uuid4().hex,
                 "email": request.form.get('email'),
@@ -44,14 +47,11 @@ class NurseUser:
                 "roles": request.form.get('roles'),
                 "work_years": request.form.get('work_years'),
                 "employment_percentage": request.form.get('employment_percentage'),
-                # "is_admin": request.form.get('is_admin'),
+                # "nurse_license_id": request.form.get('nurse_license_id'),
+                "is_admin": False,
                 }
         # Encrypt the password
-        user['id_num'] = pbkdf2_sha256.encrypt(user['id_num'])
+        # user['id_num'] = pbkdf2_sha256.hash(user['id_num'])
         nurse_details_col.insert(user)
         print("registered new nurse")
         return start_session(user)
-
-    def get_is_admin(self):
-        if self.is_admin:
-            return True
