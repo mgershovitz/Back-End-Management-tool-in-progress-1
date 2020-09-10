@@ -1,5 +1,4 @@
 from flask import url_for, request, session, jsonify
-from passlib.handlers.pbkdf2 import pbkdf2_sha256
 from werkzeug.utils import redirect
 from src.DB.db import my_db, nurse_details_col
 
@@ -14,13 +13,19 @@ def start_session(userId):
 def login(user):
     query = {"email": user.email, "id_num": user.password}
     result = nurse_details_col.find_one(query)
-    if result is not None:
-        # if result and pbkdf2_sha256.verfiy(user.password, result['id_num']):
+    if result:
         return start_session(user.id)
     else:
-        print("401 - error invalid email or password")
+        print("401 - error invalid email or password"), 401
 
 
 def logout():
     session.clear()
     return redirect(url_for('login'))
+
+
+def is_admin(user):
+    query = {"email": user.email, "id_num": user.password}
+    result = nurse_details_col.find_one(query)
+    if result["is_admin"]:
+        return True

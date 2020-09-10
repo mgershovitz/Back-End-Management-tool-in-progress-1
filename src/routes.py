@@ -39,8 +39,7 @@ posts = [
 @app.route("/")
 @login_required
 def home():
-    return render_template('home.html')
-
+    return redirect(url_for("login"))
 
 @app.route("/nurse/screen")
 @login_required
@@ -64,7 +63,7 @@ def cs_prediction():
 
 
 @app.route("/department")
-@login_required
+# @login_required
 def department():
     return render_template('department.html')
 
@@ -77,8 +76,7 @@ def login():
         login_user.email = form.email.data
         login_user.password = form.password.data
         if session_utils.login(login_user):
-            # if NurseUser().is_admin(login_user.email):
-            if form.email.data == "admin@wolfson.com":
+            if session_utils.is_admin(login_user):
                 flash('You have been logged in!', 'success')
                 return redirect(url_for('nurses'))
             else:
