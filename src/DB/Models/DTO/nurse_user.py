@@ -17,20 +17,28 @@ class NurseUser:
         self.courses = None
         self.employment_percentage = None
         self.roles = None
-        # self. nurse_license_id = None
         self.is_admin = False
 
-    @classmethod
-    def get_nurse(self, name):
-        query = {"name": name}
+
+    @staticmethod
+    def get_nurse(id):
+        query = {"_id": id}
         result_doc = nurse_details_col.find_one(query)
         return result_doc
     #   return NurseUser(result_doc.id_num, result_doc.email)
 
-    @classmethod
-    def get_all_nurses_names(collection):
+    @staticmethod
+    def get_all_nurses_names():
         all_nurses = []
-        nurses_names = collection.find({}, {"name"})
+        nurses_names = nurse_details_col.find({}, {"name"})
+        for nurse in nurses_names:
+            all_nurses.append(nurse)
+        return all_nurses
+
+    @classmethod
+    def get_all_nurses(self, collection):
+        all_nurses = []
+        nurses_names = collection.find()
         for nurse in nurses_names:
             all_nurses.append(nurse)
         return all_nurses
@@ -39,7 +47,7 @@ class NurseUser:
     def register_nurse(self):
         # hashed = generate_password_hash(request.form.get('id_num'), "sha256")
         # Create the user object
-        user = {"_id": uuid.uuid4().hex,
+        user = {"_id": request.form.get('nurse_license_id'),
                 "email": request.form.get('email'),
                 "id_num": request.form.get('id_num'),
                 "courses": request.form.get('courses'),
@@ -47,7 +55,6 @@ class NurseUser:
                 "roles": request.form.get('roles'),
                 "work_years": request.form.get('work_years'),
                 "employment_percentage": request.form.get('employment_percentage'),
-                # "nurse_license_id": request.form.get('nurse_license_id'),
                 "is_admin": False,
                 }
         # Encrypt the password

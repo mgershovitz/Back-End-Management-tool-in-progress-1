@@ -5,6 +5,19 @@
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Register Nurse</legend>
+                <div class="form-group">
+                    {{ form.nurse_license_id.label(class="form-control-label") }}
+                    {% if form.nurse_license_id.errors %}
+                        {{ form.nurse_license_id(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.nurse_license_id.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.nurse_license_id(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
                  <div class="form-group">
                     {{ form.name.label(class="form-control-label") }}
                     {% if form.name.errors %}

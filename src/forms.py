@@ -14,6 +14,8 @@ class LoginForm(FlaskForm):
 class RegisterNurseForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
+    nurse_license_id = StringField('Nurse Licence Id',
+                         validators=[DataRequired()])
     name = StringField('Name',
                        validators=[DataRequired(), Length(min=2, max=20)], )
     id_num = StringField('Id Num',

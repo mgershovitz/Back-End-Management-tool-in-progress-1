@@ -18,8 +18,7 @@ Progress:
 Next things we need to do:
 1. Insert data to nurse_statistic collection
 2. Implement department methods
-3. Present the real data in the different screens
-4. Create fake hospital db for example to demonstrate the connection between this program and the real hospital db, create script that intakes data from this db 
+3. Create fake hospital db for example to demonstrate the connection between this program and the real hospital db, create script that intakes data from this db 
 
 POC:
 * Login to the system by:
