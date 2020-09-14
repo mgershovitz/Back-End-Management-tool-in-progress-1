@@ -4,7 +4,7 @@
 {% for post in posts %}
         <article class="media content-section">
           <div class="media-body">
-              <a class="mr-2" href="{{ url_for('nurse') }}">{{ post.nurse_name }}</a>
+              <a class="mr-2" href="{{ url_for('nurse') }}">{{ post.name }}</a>
           </div>
         </article>
     {% endfor %}

@@ -2,6 +2,7 @@ from functools import wraps
 
 from flask import render_template, flash, url_for, session, jsonify
 from werkzeug.utils import redirect
+import json
 
 from src import session_utils
 from src.DB.Models.DTO.department import Department
@@ -10,8 +11,9 @@ from src.DB.Models.DTO.nurse_user import NurseUser
 from src.DB.db import nurse_details_col
 from src.run import app
 from src.forms import LoginForm, RegisterNurseForm, InsertNewBirthData
-from src.tests.dummy_data import posts
+# from src.tests.dummy_data import posts
 
+nurses_names = NurseUser.get_all_nurses_names()
 
 def login_required(f):
     @wraps(f)
@@ -32,13 +34,16 @@ def home():
 @app.route("/nurse/screen")
 @login_required
 def nurse():
-    return render_template('nurse_screen.html', posts=posts)
+    if 'user' in session:
+        nurse = []
+        nurse.append(NurseUser.get_nurse(session['user']))
+        return render_template('nurse_screen.html', posts=nurse)
 
 
 @app.route("/nurses/screen")
 @login_required
 def nurses():
-    return render_template('nurses_screen.html', posts=posts)
+    return render_template('nurses_screen.html', posts=nurses_names)
 
 
 @app.route("/cs_prediction",  methods=['GET', 'POST'])
@@ -61,11 +66,8 @@ def department():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        login_user = NurseUser()
-        login_user.email = form.email.data
-        login_user.password = form.password.data
-        if session_utils.login(login_user):
-            if session_utils.is_admin(login_user):
+        if session_utils.login(form.email.data, form.password.data):
+            if 'admin' in session:
                 flash('You have been logged in!', 'success')
                 return redirect(url_for('nurses'))
             else:
@@ -99,6 +101,7 @@ def register_nurse():
 # create Rest Api
 
 # TODO: fix this method
+# TODO: fix the encoding of hebrew charcthers or replace to english
 @app.route("/nurse/<id>", methods=['GET'])
 def get_nurse_route(id):
     nurse = NurseUser.get_nurse(id)             # the _id is the licence number of the nurse
@@ -121,24 +124,21 @@ def get_all_nurses_name():
 
 
 # the _id is the licence number of the nurse
-# TODO: fix this method
-@app.route("/nurse/statistic/<_id>", methods=['GET'])
-def get_nurse_statistic(_id):
-    nurse_statistics = NurseStatistics(_id)
-    # return str(nurse_statistics)
-    return "nurse_statistics" + _id
+@app.route("/nurse/statistic/", methods=['GET'])
+def get_nurse_statistic():
+    if 'user' in session:
+        id = session['user']
+        nurse_statistics = NurseStatistics(id)
+        return jsonify(nurse_statistics.__dict__)
 
 
 @app.route("/hospital/statistic/", methods=['GET'])
 def get_hospital_statistic_all():
-    hospital_statistics = Department.get_hospital_statistic()
-    # hospital_statistics = Department("")
-    return str(hospital_statistics)
+    hospital_statistics = Department("")
+    return jsonify(hospital_statistics.__dict__)
 
 
-# TODO: fix this method
 @app.route("/hospital/statistic/<year>", methods=['GET'])
 def get_hospital_statistic_year_routes(year):
-    hospital_statistics = Department.get_hospital_statistic_year(year)
-    # hospital_statistics = Department(year)
-    return str(hospital_statistics)
+    hospital_statistics = Department(year)
+    return json.dumps(hospital_statistics.__dict__)

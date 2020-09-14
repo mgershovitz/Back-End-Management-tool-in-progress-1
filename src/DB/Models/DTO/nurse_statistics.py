@@ -35,7 +35,7 @@ class NurseStatistics(NurseUser):
             "צוות רפואי": {
                 "$regex": id,
             },
-            "Unnamed: 9:": "חי"
+            "Unnamed: 9": "חי"
         }
         return hospital_statistic_col.count(query)
 

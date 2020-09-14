@@ -48,12 +48,13 @@ class Department:
         }
         return hospital_statistic_col.count(query)
 
+    # TODO: check why the num of living + number of dead not adds up to the total number of births.
     @staticmethod
     def count_hospital_living_birth(year):
         query = {
             "זמן לידה": {
                 "$regex": year,
             },
-            "Unnamed: 9:": "חי"
+            "Unnamed: 9": "חי"
         }
         return hospital_statistic_col.count(query)

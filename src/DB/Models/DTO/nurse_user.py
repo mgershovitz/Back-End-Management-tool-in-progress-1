@@ -8,24 +8,25 @@ from src.session_utils import start_session
 
 class NurseUser:
 
-    def __init__(self):
-        self.id = None
+    def __init__(self, id):
+        self._id = id
         self.email = None
         self.name = None
-        self.work_years = None
+        self.work_years =None
         self.id_num = None
         self.courses = None
         self.employment_percentage = None
-        self.roles = None
-        self.is_admin = False
+        self.role = None
+        self.is_admin = None
 
 
     @staticmethod
     def get_nurse(id):
         query = {"_id": id}
         result_doc = nurse_details_col.find_one(query)
+        #nurse = NurseUser(id)
+        #return nurse
         return result_doc
-    #   return NurseUser(result_doc.id_num, result_doc.email)
 
     @staticmethod
     def get_all_nurses_names():
@@ -35,6 +36,7 @@ class NurseUser:
             all_nurses.append(nurse)
         return all_nurses
 
+    # TODO: fix this method
     @classmethod
     def get_all_nurses(self, collection):
         all_nurses = []
