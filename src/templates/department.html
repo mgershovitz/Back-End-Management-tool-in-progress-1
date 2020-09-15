@@ -1,7 +1,28 @@
-{% extends "layout.html" %}
+{% if posts_admin %}
+    {% extends "layout.html" %}
+{% else %}
+    {% extends "layout_not_admin.html" %}
+{% endif %}
 {% block content %}
     <h1>Department pag</h1>
     <a class="list-group" href={{url_for('get_hospital_statistic_all')}}>
         <h3>Hospital Statistics</h3>
     </a>
+ <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#"> </a>
+              <h2>statistics</h2>
+            </div>
+             <p class="article-content">number_of_births: {{ posts.number_of_births }}<p>
+            <p class="article-content">number_of_living_births: {{ posts.number_of_living_births }}</p>
+              <p class="article-content">epi: {{ posts.epi}}</p>
+              <p class="article-content">epidoral: {{ posts.epidoral }}</p>
+              <p class="article-content">c-section: {{ posts.cs }}</p>
+              <p class="article-content">third_degree_tear: {{ posts.third_degree_tear }}</p>
+               <p class="article-content">shoulder_dystocia_perstange: {{ posts.shoulder_dystocia_perstange }}</p>
+               <p class="article-content">vaccum: {{ posts.vaccum}}</p>
+               <p class="article-content">vaginal birth after c-section: {{ posts.tolac_toVbac_percentange  }}</p>
+          </div>
+        </article>
 {% endblock content %}

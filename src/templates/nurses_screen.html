@@ -5,6 +5,7 @@
         <article class="media content-section">
           <div class="media-body">
               <a class="mr-2" href="{{ url_for('nurse') }}">{{ post.name }}</a>
+               <div ><button class="delete-button" onclick="myFunc()" >למחיקת אחות</button></div>
           </div>
         </article>
     {% endfor %}

@@ -12,6 +12,15 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #5f788a;
 }
 
+.delete-button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+   font-size: 10px;
+}
+
 .site-header .navbar-nav .nav-link {
   color: #cbd5db;
 }

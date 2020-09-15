@@ -16,6 +16,23 @@
               <p class="article-content">is_admin: {{ post.is_admin }}</p>
           </div>
         </article>
+ <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ posts_nurse.name }}</a>
+              <h2>statistics</h2>
+            </div>
+             <p class="article-content">number_of_births: {{ posts_nurse.number_of_births }}<p>
+            <p class="article-content">number_of_living_births: {{ posts_nurse.number_of_living_births }}</p>
+              <p class="article-content">epi: {{ posts_nurse.epi}}</p>
+              <p class="article-content">epidoral: {{ posts_nurse.epidoral }}</p>
+              <p class="article-content">c-section: {{ posts_nurse.cs }}</p>
+              <p class="article-content">third_degree_tear: {{ posts_nurse.third_degree_tear }}</p>
+               <p class="article-content">shoulder_dystocia_perstange: {{ posts_nurse.shoulder_dystocia_perstange }}</p>
+               <p class="article-content">vaccum: {{ posts_nurse.vaccum}}</p>
+               <p class="article-content">vaginal birth after c-section: {{ posts_nurse.tolac_toVbac_percentange  }}</p>
+          </div>
+        </article>
             <a class="mr-2" href="{{ url_for('get_nurse_statistic') }}"> <h2>Nurse Statistics</h2></a>
-    {% endfor %}
+  {% endfor %}
 {% endblock content %}

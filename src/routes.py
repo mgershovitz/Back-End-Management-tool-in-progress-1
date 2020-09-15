@@ -11,9 +11,7 @@ from src.DB.Models.DTO.nurse_user import NurseUser
 from src.DB.db import nurse_details_col
 from src.run import app
 from src.forms import LoginForm, RegisterNurseForm, InsertNewBirthData
-# from src.tests.dummy_data import posts
 
-nurses_names = NurseUser.get_all_nurses_names()
 
 def login_required(f):
     @wraps(f)
@@ -37,12 +35,16 @@ def nurse():
     if 'user' in session:
         nurse = []
         nurse.append(NurseUser.get_nurse(session['user']))
-        return render_template('nurse_screen.html', posts=nurse)
+        if 'user' in session:
+            id = session['user']
+        nurse_statistics = NurseStatistics(id)
+        return render_template('nurse_screen.html', posts=nurse, posts_nurse=nurse_statistics)
 
 
 @app.route("/nurses/screen")
 @login_required
 def nurses():
+    nurses_names = NurseUser.get_all_nurses_names()
     return render_template('nurses_screen.html', posts=nurses_names)
 
 
@@ -57,9 +59,13 @@ def cs_prediction():
 
 
 @app.route("/department")
-# @login_required
+@login_required
 def department():
-    return render_template('department.html')
+    if 'admin' in session:
+        admin_n = session['admin']
+    else:
+        admin_n = False
+    return render_template('department.html', posts=Department(""), posts_admin=admin_n)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -90,17 +96,22 @@ def register_nurse():
     if form.validate_on_submit():
         if NurseUser().register_nurse():
             flash('You have been Register a Nurse!', 'success')
-            return redirect(url_for('nurse'))
+            return redirect(url_for('nurses'))
         else:
-            flash('Register Unsuccessful. Please check username and password', 'danger')
+            flash('Register Unsuccessful.', 'danger')
     else:
         return render_template('register_nurse.html', title='register_nurse', form=form)
 
 
+@app.route("/delete/nurse/<id>", methods=['GET', 'POST'])
+@login_required
+def delete_nurse(id):
+    NurseUser.delete_nurse_id(id)
+    return redirect(url_for('nurses'))
 
 # create Rest Api
 
-# TODO: fix this method
+
 # TODO: fix the encoding of hebrew charcthers or replace to english
 @app.route("/nurse/<id>", methods=['GET'])
 def get_nurse_route(id):

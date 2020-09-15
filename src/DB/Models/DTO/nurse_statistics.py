@@ -6,7 +6,7 @@ class NurseStatistics(NurseUser):
     def __init__(self, id):
         self._id = id
         self.number_of_births = NurseStatistics.count_prognoza(id, "")
-        self.number_of_living_births = NurseStatistics.count_living(id)
+        self.number_of_living_births =  NurseStatistics.count_prognoza(id, "") - NurseStatistics.count_living(id)
         self.epi = NurseStatistics.count_prognoza(id, "Episiotomy")
         self.epidoral = NurseStatistics.count_prognoza(id, "EPIDURAL")
         self.cs = NurseStatistics.count_prognoza(id, "Section")
@@ -35,7 +35,7 @@ class NurseStatistics(NurseUser):
             "צוות רפואי": {
                 "$regex": id,
             },
-            "Unnamed: 9": "חי"
+            "Unnamed: 9": "מת"
         }
         return hospital_statistic_col.count(query)
 
