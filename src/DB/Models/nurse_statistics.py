@@ -1,4 +1,4 @@
-from src.DB.Models.DTO.nurse_user import NurseUser
+from src.DB.Models.nurse_user import NurseUser
 from src.DB.db import hospital_statistic_col
 
 

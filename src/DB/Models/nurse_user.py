@@ -1,15 +1,13 @@
 from flask import jsonify, request, url_for
-import uuid
-# from passlib.handlers.pbkdf2 import pbkdf2_sha256
-# from werkzeug.security import generate_password_hash
+from cryptography.fernet import Fernet
 from werkzeug.utils import redirect
+# import uuid
 
 from src.DB.db import nurse_details_col
-from src.session_utils import start_session
+from src.keys.key import key
 
 
 class NurseUser:
-
     def __init__(self):
         self._id = None
         self.email = None
@@ -58,7 +56,10 @@ class NurseUser:
                 "is_admin": False,
                 }
         # Encrypt the password
-        # user['id_num'] = pbkdf2_sha256.hash(user['id_num'])
+        original_id_num = user['id_num'].encode()
+        f = Fernet(key)  # the key is in bytes
+        encrypted = f.encrypt(original_id_num)  # Encrypt the bytes. The returning object is of type bytes
+        user['id_num'] = encrypted
         try:
             nurse_details_col.insert(user)
             print("registered new nurse")

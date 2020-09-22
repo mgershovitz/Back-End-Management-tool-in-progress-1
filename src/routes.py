@@ -1,13 +1,12 @@
 from functools import wraps
-
 from flask import render_template, flash, url_for, session, jsonify
 from werkzeug.utils import redirect
 import json
 
 from src import session_utils
-from src.DB.Models.DTO.department import Department
-from src.DB.Models.DTO.nurse_statistics import NurseStatistics
-from src.DB.Models.DTO.nurse_user import NurseUser
+from src.DB.Models.department import Department
+from src.DB.Models.nurse_statistics import NurseStatistics
+from src.DB.Models.nurse_user import NurseUser
 from src.DB.db import nurse_details_col
 from src.run import app
 from src.forms import LoginForm, RegisterNurseForm, InsertNewBirthData
@@ -53,9 +52,10 @@ def nurses():
 def cs_prediction():
     form = InsertNewBirthData()
     if form.validate_on_submit():
-        return render_template('cs_prediction.html', title='Cs_prediction', form=form) #TODO: fix it
+        print("validates!")
     else:
-        return "in progress"
+        print("in progress")
+    return render_template('bleeding_prediction.html', title='bleeding_prediction', form=form) #TODO: fix it
 
 
 @app.route("/department")
@@ -65,7 +65,8 @@ def department():
         admin_n = session['admin']
     else:
         admin_n = False
-    return render_template('department.html', posts=Department(""), posts_admin=admin_n)
+    return render_template('department.html', posts=Department(""), posts_admin=admin_n, url='../static/images/pie.png',
+                           url2='../static/images/bar.png')
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -81,7 +82,7 @@ def login():
                 return redirect(url_for('nurse'))
         else:
              flash('Login Unsuccessful. Please check username and password', 'danger')
-    return render_template('login.html', title='Login', form=form)
+    return render_template('login.html', title='Login', form=form, url="../static/images/baby_bg_img.jpg")
 
 
 @app.route("/logout")
@@ -94,6 +95,9 @@ def logout():
 def register_nurse():
     form = RegisterNurseForm()
     if form.validate_on_submit():
+        # if NurseUser().register_nurse() == 1:
+        #     flash('Register Unsuccessful. Please check the the licence id, nurse is already in the system', 'danger')
+        #     return redirect(url_for('register_nurse'))
         if NurseUser().register_nurse():
             flash('You have been Register a Nurse!', 'success')
             return redirect(url_for('nurses'))
@@ -117,7 +121,6 @@ def delete_nurse(id):
 def get_nurse_route(id):
     nurse = NurseUser.get_nurse(id)             # the _id is the licence number of the nurse
     return jsonify(nurse)
-    # return id
 
 
 # TODO: fix the encoding of hebrew charcthers or replace to english
@@ -153,3 +156,4 @@ def get_hospital_statistic_all():
 def get_hospital_statistic_year_routes(year):
     hospital_statistics = Department(year)
     return json.dumps(hospital_statistics.__dict__)
+

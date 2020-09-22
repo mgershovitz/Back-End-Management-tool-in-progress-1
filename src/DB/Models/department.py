@@ -57,3 +57,16 @@ class Department:
             "Unnamed: 9": "מת"
         }
         return hospital_statistic_col.count(query)
+
+    @staticmethod
+    def count_hospital_prognoza_first_birth(prognoza, year, number_of_birth):
+        query = {
+            "זמן לידה": {
+                "$regex": year,
+            },
+            "אבחנות בהריון": {
+                "$regex": prognoza,
+            },
+            "מס' לידה": number_of_birth
+        }
+        return hospital_statistic_col.count(query)

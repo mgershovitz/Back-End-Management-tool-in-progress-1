@@ -42,7 +42,7 @@ class InsertNewBirthData(FlaskForm):
                                         validators=[DataRequired()])
     tolac = StringField('Tolac',
                           validators=[DataRequired()])
-    estimated_weight = StringField('Roles',
+    estimated_weight = StringField('estimated_weight',
                         validators=[DataRequired()])
     induction_or_spontaneous = StringField('Induction or Spontaneous',
                          validators=[DataRequired()])
@@ -50,4 +50,4 @@ class InsertNewBirthData(FlaskForm):
                                            validators=[DataRequired()])
     epidural = StringField('Epidural',
                                            validators=[DataRequired()])
-    submit = SubmitField('Register Nurse')
+    submit = SubmitField('Insert birth data')

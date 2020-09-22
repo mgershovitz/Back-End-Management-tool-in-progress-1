@@ -1,11 +1,10 @@
-import pandas as p
 from matplotlib import pyplot as plt
-from src.DB.Models.DTO.department import Department
+from src.DB.Models.department import Department
 import numpy as np
 
 # graph methods
 # plot graph methods
-from src.DB.Models.DTO.nurse_statistics import NurseStatistics
+from src.DB.Models.nurse_statistics import NurseStatistics
 
 
 def create_plot_graph(month, births):
@@ -16,15 +15,17 @@ def create_plot_graph(month, births):
 
 # create bar graph - number of births
 def create_bar_graph(month, births):
-    fig = plt.figure()
-    ax = fig.add_axes([0, 0, 1, 1])
+    fig, ax = plt.subplots()
+    x = np.arange(12)
+    plt.bar(month, births)
+    plt.xticks(x, ('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'))
     plt.title('Number of births per month')
-    ax.bar(month, births)
-    # plt.savefig('bar.png')
+    #plt.savefig('bar.png')
     plt.show()
 
 
 def create_multiple_bar_graph(hospital_statistics, nurse_statistics):
+    plt.title('Nurse statistics compared to Hospital statistics')
     bar_width = 0.25
 
     # Set position of bar on X axis
@@ -41,7 +42,7 @@ def create_multiple_bar_graph(hospital_statistics, nurse_statistics):
                ['תודיל סמ', 'םיירסיק', 'םוקאו', '3 הגרד םיכתח', 'יפא', 'לרודיפא'])
 
     # save file
-    # plt.savefig('multiple_bar.png')
+    #plt.savefig('multiple_bar.png')
 
     # Create legend & Show graphic
     plt.legend()
@@ -92,21 +93,16 @@ vacuum = Department("").count_hospital_prognoza_first_birth("Vacuum", "19", 1)
 not_vacuum_not_cs = Department("").count_hospital_prognoza_first_birth("Section", "19", 1) + Department(
     "").count_hospital_prognoza_first_birth("Vaccum", "19", 1)
 not_vacuum = Department("").count_hospital_prognoza_first_birth("", "19", 1) - not_vacuum_not_cs
-# vacuum data for vaginal births gt than first birth
-vacuum_gt_first = Department("").count_hospital_prognoza_first_birth("Vacuum", "19", 2)
-not_vacuum_not_cs = Department("").count_hospital_prognoza_first_birth("Section", "19", 2) + Department(
-    "").count_hospital_prognoza_first_birth("Vacuum", "19", 2)
-not_vacuum_gt_first = Department("").count_hospital_prognoza_first_birth("", "19", 2) - not_vacuum_not_cs
 
 labels = 'Vacuum', 'Not Vacuum'
 sizes = [vacuum, not_vacuum]
-sizes_gt_than_first = [vacuum_gt_first, not_vacuum_gt_first]
 
-# plot graphs
-create_pie_graph(labels, sizes, "first")
-create_pie_graph(labels, sizes_gt_than_first, "second")
-create_bar_graph(month, births)
 h_births = hs.number_of_births
 n_births = ns.number_of_births
 per = 100
-create_multiple_bar_graph([hs.number_of_births,(hs.cs/h_births)*per,(hs.vaccum/h_births)*per,(hs.third_degree_tear/h_births)*per,(hs.epi/h_births)*per, (hs.epidoral/h_births)*per], [ns.number_of_births,(ns.cs/n_births)*per, (ns.vaccum/n_births)*per, (ns.third_degree_tear/n_births)*per, (ns.epi/n_births)*per, (ns.epidoral/n_births)*per])  # comparing nurse and hospital statistics for irena
+
+# plot graphs
+# create_pie_graph(labels, sizes, "first")
+# create_pie_graph(labels, sizes_gt_than_first, "second")
+# create_bar_graph(month, births)
+# create_multiple_bar_graph([hs.number_of_births,(hs.cs/h_births)*per,(hs.vaccum/h_births)*per,(hs.third_degree_tear/h_births)*per,(hs.epi/h_births)*per, (hs.epidoral/h_births)*per], [ns.number_of_births,(ns.cs/n_births)*per, (ns.vaccum/n_births)*per, (ns.third_degree_tear/n_births)*per, (ns.epi/n_births)*per, (ns.epidoral/n_births)*per])  # comparing nurse and hospital statistics for irena

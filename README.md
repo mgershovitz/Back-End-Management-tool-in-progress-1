@@ -24,13 +24,13 @@ Next things we need to do:
 POC:
 * Login to the system by:
    as admin:  Username: admin@wolfson.com  Password: 0  
-   as not admin:  Username: irena@wolfson.com  Password: 22
+   as not admin:  Username: miki@wilfson.com  Password: 555
 * Register new nurse.
 * See nurse data.
 
 Run locally:
-1. clone project
-2. install requirements -
+1. Clone project
+2. Install requirements -
 pip install -r requirements.txt
-3. run program from src folder
+3. Run program from src folder
 python src/run.py
