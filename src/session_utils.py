@@ -1,9 +1,9 @@
 from flask import url_for, session, jsonify
 from werkzeug.utils import redirect
-from src.DB.db import nurse_details_col
+from DB.db import nurse_details_col
 from cryptography.fernet import Fernet
 
-from src.keys.key import key
+from keys.key import key
 
 
 def start_session(userId):

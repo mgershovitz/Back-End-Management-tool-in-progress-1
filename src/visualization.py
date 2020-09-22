@@ -1,10 +1,10 @@
 from matplotlib import pyplot as plt
-from src.DB.Models.department import Department
+from DB.Models.department import Department
 import numpy as np
 
 # graph methods
 # plot graph methods
-from src.DB.Models.nurse_statistics import NurseStatistics
+from DB.Models.nurse_statistics import NurseStatistics
 
 
 def create_plot_graph(month, births):

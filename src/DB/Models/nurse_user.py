@@ -3,8 +3,8 @@ from cryptography.fernet import Fernet
 from werkzeug.utils import redirect
 # import uuid
 
-from src.DB.db import nurse_details_col
-from src.keys.key import key
+from DB.db import nurse_details_col
+from keys.key import key
 
 
 class NurseUser:

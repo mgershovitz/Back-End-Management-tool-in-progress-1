@@ -1,5 +1,5 @@
-from src.DB.Models.nurse_user import NurseUser
-from src.DB.db import hospital_statistic_col
+from DB.Models.nurse_user import NurseUser
+from DB.db import hospital_statistic_col
 
 
 class NurseStatistics(NurseUser):

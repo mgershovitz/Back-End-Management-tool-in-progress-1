@@ -3,13 +3,13 @@ from flask import render_template, flash, url_for, session, jsonify
 from werkzeug.utils import redirect
 import json
 
-from src import session_utils
-from src.DB.Models.department import Department
-from src.DB.Models.nurse_statistics import NurseStatistics
-from src.DB.Models.nurse_user import NurseUser
-from src.DB.db import nurse_details_col
-from src.run import app
-from src.forms import LoginForm, RegisterNurseForm, InsertNewBirthData
+import session_utils
+from DB.Models.department import Department
+from DB.Models.nurse_statistics import NurseStatistics
+from DB.Models.nurse_user import NurseUser
+from DB.db import nurse_details_col
+from run import app
+from forms import LoginForm, RegisterNurseForm, InsertNewBirthData
 
 
 def login_required(f):

@@ -1,4 +1,4 @@
-from src.DB.db import hospital_statistic_col
+from DB.db import hospital_statistic_col
 
 
 class Department:

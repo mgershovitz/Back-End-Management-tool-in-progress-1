@@ -1,8 +1,8 @@
 import os
 from flask import Flask
 
-from src.DB.Models.nurse_user import NurseUser
-from src.DB.db import insert_admin_nurse
+from DB.Models.nurse_user import NurseUser
+from DB.db import insert_admin_nurse
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
@@ -10,9 +10,9 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 cwd = os.path.abspath('../')
 files = os.listdir(cwd)
 
-from src import routes
-# from src.tests import tests_
-# from src import visualization
+import routes
+# import tests_
+# import visualization
 
 # insert hospital statistic to the my_db
 # DBCron().load_from_csv_to_db()

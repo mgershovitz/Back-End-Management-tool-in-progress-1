@@ -1,4 +1,4 @@
-from src.DB.Models.nurse_user import NurseUser
+from DB.Models.nurse_user import NurseUser
 
 # ****************************************************************************************************
 # testing
