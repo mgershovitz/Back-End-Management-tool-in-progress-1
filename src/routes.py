@@ -37,7 +37,7 @@ def nurse():
         if 'user' in session:
             id = session['user']
         nurse_statistics = NurseStatistics(id)
-        return render_template('nurse_screen.html', posts=nurse, posts_nurse=nurse_statistics)
+        return render_template('nurse_screen.html', posts=nurse, posts_nurse=nurse_statistics, url='../static/images/multiple_bar.png')
 
 
 @app.route("/nurses/screen")

@@ -25,7 +25,7 @@ def create_bar_graph(month, births):
 
 
 def create_multiple_bar_graph(hospital_statistics, nurse_statistics):
-    plt.title('Nurse statistics compared to Hospital statistics')
+    plt.title('Nurse statistics compared to Hospital statistics(percentage%)')
     bar_width = 0.25
 
     # Set position of bar on X axis
@@ -39,10 +39,10 @@ def create_multiple_bar_graph(hospital_statistics, nurse_statistics):
     # Add xticks on the middle of the group bars
     plt.xlabel('group', fontweight='bold')
     plt.xticks([r + bar_width for r in range(len(hospital_statistics))],
-               ['תודיל סמ', 'םיירסיק', 'םוקאו', '3 הגרד םיכתח', 'יפא', 'לרודיפא'])
+               [ 'םיירסיק', 'םוקאו', '3 הגרד םיכתח', 'יפא', 'לרודיפא'])
 
     # save file
-    #plt.savefig('multiple_bar.png')
+    plt.savefig('multiple_bar.png')
 
     # Create legend & Show graphic
     plt.legend()
@@ -105,4 +105,4 @@ per = 100
 # create_pie_graph(labels, sizes, "first")
 # create_pie_graph(labels, sizes_gt_than_first, "second")
 # create_bar_graph(month, births)
-# create_multiple_bar_graph([hs.number_of_births,(hs.cs/h_births)*per,(hs.vaccum/h_births)*per,(hs.third_degree_tear/h_births)*per,(hs.epi/h_births)*per, (hs.epidoral/h_births)*per], [ns.number_of_births,(ns.cs/n_births)*per, (ns.vaccum/n_births)*per, (ns.third_degree_tear/n_births)*per, (ns.epi/n_births)*per, (ns.epidoral/n_births)*per])  # comparing nurse and hospital statistics for irena
+create_multiple_bar_graph([(hs.cs/h_births)*per,(hs.vaccum/h_births)*per,(hs.third_degree_tear/h_births)*per,(hs.epi/h_births)*per, (hs.epidoral/h_births)*per], [(ns.cs/n_births)*per, (ns.vaccum/n_births)*per, (ns.third_degree_tear/n_births)*per, (ns.epi/n_births)*per, (ns.epidoral/n_births)*per])  # comparing nurse and hospital statistics for irena

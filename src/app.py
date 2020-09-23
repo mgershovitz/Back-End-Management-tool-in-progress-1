@@ -11,8 +11,8 @@ cwd = os.path.abspath('../')
 files = os.listdir(cwd)
 
 import routes
-# import tests_
-# import visualization
+# import tests_app
+import visualization
 
 # insert hospital statistic to the my_db
 # DBCron().load_from_csv_to_db()
