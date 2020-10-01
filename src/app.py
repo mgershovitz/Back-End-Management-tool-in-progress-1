@@ -4,8 +4,12 @@ from flask import Flask
 from DB.Models.nurse_user import NurseUser
 from DB.db import insert_admin_nurse
 
+ROOT_UESR_ID = '0'
+SECRET_KEY_PATH = 'SECRET_KEY'
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config[SECRET_KEY_PATH] = os.getenv(SECRET_KEY_PATH)
+
 
 cwd = os.path.abspath('../')
 files = os.listdir(cwd)
@@ -21,4 +25,4 @@ import visualization
 if NurseUser().get_nurse("1133069"):
     pass
 else:
-    insert_admin_nurse('0')
+    insert_admin_nurse(ROOT_UESR_ID)
